@@ -1,0 +1,10 @@
+Django>=4.0,<5
+djangorestframework
+psycopg2-binary
+dj-database-url
+celery[redis]
+openpyxl
+pandas
+gunicorn
+python-dotenv
+python-dateutil
