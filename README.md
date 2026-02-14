@@ -28,6 +28,12 @@ Django 4 + DRF backend with PostgreSQL and Celery. No frontend.
    docker compose run app python manage.py ingest_initial_data --sync
    ```
 
+   If you already ingested data before and new `/register` calls fail with 500, reset the customer ID sequence once:
+
+   ```bash
+   docker compose run --rm app python manage.py reset_customer_sequence
+   ```
+
 ## API endpoints
 
 | Method | Endpoint | Description |

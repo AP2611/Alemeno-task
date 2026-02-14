@@ -5,8 +5,18 @@ from decimal import Decimal
 import pandas as pd
 from celery import shared_task
 from django.conf import settings
+from django.db import connection
 
 from .models import Customer, Loan
+
+
+def _reset_customer_sequence():
+    """Reset Customer id sequence so new registrations don't conflict with ingested IDs."""
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT setval(pg_get_serial_sequence('credit_app_customer', 'id'), "
+            "(SELECT COALESCE(MAX(id), 1) FROM credit_app_customer));"
+        )
 
 logger = logging.getLogger(__name__)
 
@@ -56,6 +66,7 @@ def ingest_customers_from_excel(file_path: str) -> dict:
         except Exception as e:
             logger.warning("Skip row %s: %s", row.to_dict(), e)
             continue
+    _reset_customer_sequence()
     return {'ok': True, 'created': created, 'updated': updated}
 
 
