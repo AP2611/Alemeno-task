@@ -44,6 +44,14 @@ Django 4 + DRF backend with PostgreSQL and Celery. No frontend.
 | GET | `/view-loan/<loan_id>` | Loan details and customer |
 | GET | `/view-loans/<customer_id>` | All loans for customer |
 
+## Tests
+
+Run unit and API tests:
+
+```bash
+docker compose run --rm app python manage.py test credit_app
+```
+
 ## Stack
 
 - Django 4, Django REST Framework
